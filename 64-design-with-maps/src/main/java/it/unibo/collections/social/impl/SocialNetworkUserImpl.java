@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * 
@@ -35,7 +36,7 @@ public final class SocialNetworkUserImpl<U extends User> extends UserImpl implem
      * In order to save the people followed by a user organized in groups, adopt
      * a generic-type Map:  think of what type of keys and values would best suit the requirements
      */
-    private final Map<String,List<U>> map = new HashMap<>();
+    private final Map<String,Set<U>> map;
     /*
      * [CONSTRUCTORS]
      *
@@ -62,6 +63,7 @@ public final class SocialNetworkUserImpl<U extends User> extends UserImpl implem
      */
     public SocialNetworkUserImpl(final String name, final String surname, final String user, final int userAge) {
         super(name, surname, user, userAge);
+        this.map = new HashMap<>();
     }
 
     /*
@@ -77,14 +79,10 @@ public final class SocialNetworkUserImpl<U extends User> extends UserImpl implem
      */
     @Override
     public boolean addFollowedUser(final String circle, final U user) {
-        if(!map.containsKey(circle)) {
-            map.put(circle, new ArrayList<>());
+        if (!this.map.containsKey(circle)) {
+            this.map.put(circle, new HashSet<>());
         }
-        if (!map.get(circle).contains(user)) {
-            map.get(circle).add(user);
-            return true;
-        }
-        return false;
+        return this.map.get(circle).add(user);
     }
 
     /**
@@ -94,8 +92,8 @@ public final class SocialNetworkUserImpl<U extends User> extends UserImpl implem
      */
     @Override
     public Collection<U> getFollowedUsersInGroup(final String groupName) {
-        if(!map.containsKey(groupName)) {
-            return new HashSet<>(map.get(groupName));
+        if(!this.map.containsKey(groupName)) {
+            return new ArrayList<>(this.map.get(groupName));
         }
         return Collections.emptySet();
     }
@@ -104,7 +102,7 @@ public final class SocialNetworkUserImpl<U extends User> extends UserImpl implem
     public List<U> getFollowedUsers() {
         List<U> followedUsers = new ArrayList<>();
         for (String i : map.keySet()) {
-            if (map.get(i).contains(this)) {
+            if (this.map.get(i).contains(this)) {
                 followedUsers.addAll(map.get(i));
             }
         }
