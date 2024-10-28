@@ -36,7 +36,7 @@ public final class SocialNetworkUserImpl<U extends User> extends UserImpl implem
      * In order to save the people followed by a user organized in groups, adopt
      * a generic-type Map:  think of what type of keys and values would best suit the requirements
      */
-
+    private final Map<String,List<U>> map = new HashMap<>();
     /*
      * [CONSTRUCTORS]
      *
@@ -62,13 +62,15 @@ public final class SocialNetworkUserImpl<U extends User> extends UserImpl implem
      *            application
      */
     public SocialNetworkUserImpl(final String name, final String surname, final String user, final int userAge) {
-        super(null, null, null, 0);
+        super(name, surname, user, userAge);
     }
 
     /*
      * 2) Define a further constructor where the age defaults to -1
      */
-
+    public SocialNetworkUserImpl(final String name, final String surname, final String user) {
+        this(name, surname, user, -1);
+    }
     /*
      * [METHODS]
      *
@@ -76,6 +78,13 @@ public final class SocialNetworkUserImpl<U extends User> extends UserImpl implem
      */
     @Override
     public boolean addFollowedUser(final String circle, final U user) {
+        if(!map.containsKey(circle)) {
+            map.put(circle, new ArrayList<>());
+        }
+        if (!map.get(circle).contains(user)) {
+            map.get(circle).add(user);
+            return true;
+        }
         return false;
     }
 
@@ -86,11 +95,20 @@ public final class SocialNetworkUserImpl<U extends User> extends UserImpl implem
      */
     @Override
     public Collection<U> getFollowedUsersInGroup(final String groupName) {
-        return null;
+        if(!map.containsKey(groupName)) {
+            return new HashSet<>(map.get(groupName));
+        }
+        return Collections.emptySet();
     }
 
     @Override
     public List<U> getFollowedUsers() {
-        return null;
+        List<U> followedUsers = new ArrayList<>();
+        for (String i : map.keySet()) {
+            if (map.get(i).contains(this)) {
+                followedUsers.addAll(map.get(i));
+            }
+        }
+        return followedUsers;
     }
 }
