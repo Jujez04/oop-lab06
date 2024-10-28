@@ -92,7 +92,7 @@ public final class SocialNetworkUserImpl<U extends User> extends UserImpl implem
      */
     @Override
     public Collection<U> getFollowedUsersInGroup(final String groupName) {
-        if(!this.map.containsKey(groupName)) {
+        if(this.map.containsKey(groupName)) {
             return new ArrayList<>(this.map.get(groupName));
         }
         return Collections.emptySet();
