@@ -1,5 +1,6 @@
 package it.unibo.collections;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +9,8 @@ import java.util.Map;
  *
  */
 public final class UseListsAndMaps {
+
+    private final static int SIZE = 1000;
 
     private UseListsAndMaps() {
     }
@@ -21,6 +24,11 @@ public final class UseListsAndMaps {
          * 1) Create a new ArrayList<Integer>, and populate it with the numbers
          * from 1000 (included) to 2000 (excluded).
          */
+        ArrayList<Integer> arrayInt = new ArrayList<>();
+        for(int i = 0; i < SIZE; i++){
+            arrayInt.add((i + SIZE));
+        }
+        System.out.println(arrayInt);
         /*
          * 2) Create a new LinkedList<Integer> and, in a single line of code
          * without using any looping construct (for, while), populate it with
