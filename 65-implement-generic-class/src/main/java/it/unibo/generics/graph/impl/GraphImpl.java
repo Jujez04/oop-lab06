@@ -32,15 +32,12 @@ public class GraphImpl<N> implements Graph<N> {
 
     @Override
     public List<N> getPath(N source, N target) {   //BFS Strategy
-
         if (!this.nodeSet().contains(source) || !this.nodeSet().contains(target)) {
             return new ArrayList<>();
         }
-        
         Queue<N> queue = new LinkedList<>();
         HashMap<N,N> predecessors = new HashMap<>();
         HashMap<N, Boolean> visited = new HashMap<>(this.map.size());
-
         queue.add(source);
         predecessors.put(source, null);
         for (N n : this.nodeSet()) {
@@ -63,7 +60,6 @@ public class GraphImpl<N> implements Graph<N> {
         for (N i = target; i != null; i = predecessors.get(i)) {        //Trova il percorso a ritroso
             path.add(i);
         }
-    
         return path.reversed();
     } 
     
