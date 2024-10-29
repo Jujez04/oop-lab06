@@ -35,7 +35,11 @@ public class GraphImpl<N> implements Graph<N> {
         if (!this.nodeSet().contains(source) || !this.nodeSet().contains(target)) {
             return new ArrayList<>();
         }
-        return new BreadthFirstSearch<N>().explore(this.map, source, target);
+        Random rand = new Random();
+        if (rand.nextBoolean()) {
+            return new BreadthFirstSearch<N>().explore(this.map, source, target);
+        }
+        return new DepthFirstSearch<N>().explore(this.map, source, target);
     } 
     
 }

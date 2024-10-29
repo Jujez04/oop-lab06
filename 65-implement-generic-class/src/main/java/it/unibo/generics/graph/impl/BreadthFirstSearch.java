@@ -16,7 +16,7 @@ public class BreadthFirstSearch<T> implements Exploration<T> {
     public List<T> explore(Map<T, List<T>> map, T source, T target) {
         Queue<T> queue = new LinkedList<>();
         HashMap<T,T> predecessors = new HashMap<>();
-        HashMap<T, Boolean> visited = new HashMap<>(map.size());
+        HashMap<T, Boolean> visited = new HashMap<>();
         queue.add(source);
         predecessors.put(source, null);
         for (T n : map.keySet()) {
@@ -40,5 +40,4 @@ public class BreadthFirstSearch<T> implements Exploration<T> {
         }
         return path.reversed();
     }
-    
 }
