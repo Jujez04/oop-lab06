@@ -35,32 +35,7 @@ public class GraphImpl<N> implements Graph<N> {
         if (!this.nodeSet().contains(source) || !this.nodeSet().contains(target)) {
             return new ArrayList<>();
         }
-        Queue<N> queue = new LinkedList<>();
-        HashMap<N,N> predecessors = new HashMap<>();
-        HashMap<N, Boolean> visited = new HashMap<>(this.map.size());
-        queue.add(source);
-        predecessors.put(source, null);
-        for (N n : this.nodeSet()) {
-            visited.put(n, false);
-            predecessors.put(n, null);
-        }
-        visited.put(source, true);
-
-        while (!queue.isEmpty()) {
-            N removed = queue.remove();
-            for (N n : this.linkedNodes(removed)) {
-                if (!visited.get(n)) {
-                    visited.put(n,true);
-                    predecessors.put(n, removed);
-                    queue.add(n);
-                }
-            }
-        }
-        List<N> path = new ArrayList<>(); 
-        for (N i = target; i != null; i = predecessors.get(i)) {        //Trova il percorso a ritroso
-            path.add(i);
-        }
-        return path.reversed();
+        return new BreadthFirstSearch<N>().explore(this.map, source, target);
     } 
     
 }
