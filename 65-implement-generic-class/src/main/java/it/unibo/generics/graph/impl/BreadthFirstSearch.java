@@ -12,13 +12,9 @@ import it.unibo.generics.graph.api.Exploration;
 
 public class BreadthFirstSearch<T> implements Exploration<T> {
 
-    @Override
-    public List<T> explore(Map<T, List<T>> map, T source, T target) {
+    private void bfsVisit(Map<T, List<T>> map, T source, T target, HashMap<T,T> predecessors, HashMap<T, Boolean> visited) {
         Queue<T> queue = new LinkedList<>();
-        HashMap<T,T> predecessors = new HashMap<>();
-        HashMap<T, Boolean> visited = new HashMap<>();
         queue.add(source);
-        predecessors.put(source, null);
         for (T n : map.keySet()) {
             visited.put(n, false);
             predecessors.put(n, null);
@@ -34,6 +30,14 @@ public class BreadthFirstSearch<T> implements Exploration<T> {
                 }
             }
         }
+    }
+
+    @Override
+    public List<T> explore(Map<T, List<T>> map, T source, T target) {
+        HashMap<T,T> predecessors = new HashMap<>();
+        HashMap<T, Boolean> visited = new HashMap<>();
+        predecessors.put(source, null);
+        bfsVisit(map, source, target, predecessors, visited);
         List<T> path = new ArrayList<>(); 
         for (T i = target; i != null; i = predecessors.get(i)) {        //Trova il percorso a ritroso
             path.add(i);
@@ -41,3 +45,4 @@ public class BreadthFirstSearch<T> implements Exploration<T> {
         return path.reversed();
     }
 }
+
